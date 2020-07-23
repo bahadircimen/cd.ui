@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cet-application-myaccountui-dep
+  namespace: ${NAMESPACE}
+spec:
+  replicas: ${REPLICAS}
+  template:
+    metadata:
+      labels:
+        app: ${DOCKER_TAG_NAME}
+        type: cet-application-app
+    spec:
+      containers:
+        - name: cet-application-myaccountapi
+          image: ${DOCKER_REGISTRY_ADDRESS}/cet-applications-myaccountui:${DOCKER_TAG_VERSION}
+          env:
+            - name: NODE_ENV
+              value: ${ASPNETCORE_ENVIRONMENT}
+      imagePullSecrets:
+        - name: regcred
